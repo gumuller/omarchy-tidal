@@ -31,12 +31,19 @@ Ui.Panel {
             Keys.onEscapePressed: root.close()
             Text {
                 width: parent.width
-                text: "TIDAL RUST"
+                text: root.player && root.player.usingWeb ? "TIDAL WEB" : "TIDAL RUST"
                 textFormat: Text.PlainText
                 font.family: Style.font.family
                 font.pixelSize: Style.font.subtitle
                 font.bold: true
                 color: root.barForeground
+            }
+            Ui.Dropdown {
+                width: parent.width
+                showLabel: false
+                value: root.player ? root.player.choice : "auto"
+                options: root.player ? root.player.sourceOptions : []
+                onChanged: function(value) { if (root.player) root.player.chooseSource(value) }
             }
             Row {
                 width: parent.width
@@ -98,7 +105,7 @@ Ui.Panel {
             Ui.PanelSlider {
                 width: parent.width
                 bar: root.bar
-                enabled: !!root.playback.can_play
+                enabled: !!root.playback.can_seek
                 maximum: Math.max(1, root.playback.duration || 0)
                 value: root.playback.position || 0
                 onReleased: function(value) { if (root.player) root.player.control("seek", Math.round(value)) }
@@ -143,6 +150,7 @@ Ui.Panel {
                 }
             }
             Spectrum {
+                visible: !!root.playback.spectrum_available
                 width: parent.width
                 height: Style.space(76)
                 active: root.opened
@@ -150,6 +158,7 @@ Ui.Panel {
                 live: root.player ? root.player.spectrumLive : false
             }
             Row {
+                visible: !!root.playback.can_volume
                 width: parent.width
                 spacing: Style.space(10)
                 Text {
@@ -177,10 +186,10 @@ Ui.Panel {
             }
             Ui.Button {
                 width: parent.width
-                text: root.playback.running ? (root.playback.visible ? "Hide player" : "Show player") : "Open TIDAL Rust"
+                text: root.player && root.player.usingWeb ? "Show TIDAL web" : (root.playback.running ? (root.playback.visible ? "Hide player" : "Show player") : "Open TIDAL Rust")
                 focusable: true
                 bordered: true
-                enabled: root.player ? root.player.available : false
+                enabled: !!root.playback.can_show
                 onClicked: { root.player.control("toggle-window"); root.close() }
             }
             Text {

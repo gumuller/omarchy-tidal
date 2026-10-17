@@ -49,3 +49,21 @@ and restarted on reopen without interrupting playback. The player's expanded
 29-check GUI suite passed, including live FFT subscription and clearing on
 pause; all 12 Rust tests also passed. Animation uses the Qt frame clock and is
 targeted at 60 fps independently of the lower-rate metadata poll.
+
+## Dual-player update (v1.2.0)
+
+`node tests/source-model.test.cjs` passes 16 source-identification and selection
+checks: direct TIDAL metadata, dedicated PWAs, shared-browser ambiguity, PID
+isolation, lookalike domains, playback ordering, pause stability, explicit pins
+and closed-session safety.
+
+Live tests used the existing Omarchy shell with a temporary IPC test adapter
+removed before publication. The QML controller paused/resumed TIDAL web, sought
+within the track, and focused its specific PWA window. Rust playback state and
+volume stayed unchanged. Chromium's ignored volume writes were detected and the
+web volume control is unavailable. The native FFT is absent under web playback.
+Changing to Auto excluded the ambiguous Chromium session; native selection
+routed volume changes to Rust and restored the original value. Browser controls
+still worked with the native executable deliberately unavailable. Source choice
+persisted across shell restarts. No browser extension or second shell process
+was used.

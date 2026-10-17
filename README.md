@@ -1,20 +1,39 @@
-# TIDAL Rust Controller for Omarchy
+# TIDAL Controller for Omarchy
 
-An optional Quattro bar widget for [TIDAL Rust](https://github.com/gumuller/tidal-rs).
-Open a compact, themed music controller without keeping the player's window
-on screen. Playback remains in the native Rust/GTK4 application.
+An optional Quattro bar widget for TIDAL Rust and TIDAL web, with a compact
+themed popup and conservative automatic source selection.
 
-## Install the player first
+## Players and automatic selection
 
-Requires **TIDAL Rust 0.6.1 or newer**, a TIDAL account, and a subscription that
-permits playback. Install the Arch package or native binary bundle from the
-[player releases](https://github.com/gumuller/tidal-rs/releases/latest).
-The installed `tidal-rs` command must be in the Omarchy shell's PATH. If it is
-elsewhere, set the widget's **TIDAL Rust executable** setting to its absolute path.
+Supports the native [TIDAL Rust](https://github.com/gumuller/tidal-rs) app and
+TIDAL web through your browser's local MPRIS media session. For web playback,
+open TIDAL in your browser/PWA and start a track so the browser publishes its
+media session. No browser extension, account access or native app is required
+for web controls.
 
-The player is independent of Omarchy and remains usable when this plugin is
-removed. This plugin deliberately does not install software or run an installer
-on your behalf. If the dependency is missing, the panel explains what is needed.
+For native playback and the live FFT spectrum, install **TIDAL Rust 0.6.1+**
+from [the player releases](https://github.com/gumuller/tidal-rs/releases/latest).
+The command must be in the shell's PATH, or set **TIDAL Rust executable** to
+its absolute path. The plugin never installs the player automatically.
+
+The popup's source picker offers **Auto**, **TIDAL Rust** and discovered
+browser sessions. Auto prefers a playing, identified TIDAL source; when two
+are playing it follows the most recently observed playback start. Pausing
+retains the selected source if nothing else is playing.
+
+Auto recognizes a TIDAL identity or a TIDAL metadata/artwork URL, or a dedicated
+TIDAL PWA whose browser process has only TIDAL windows. A browser process with
+other windows (for example, TIDAL and WhatsApp) remains ambiguous. Song names
+and the mere presence of a TIDAL tab do not qualify it for automatic selection.
+Select that browser explicitly to pin the session. This choice is remembered
+across shell restarts; if the browser session closes, controls become unavailable
+until you select Auto or another session. It never falls through to a different
+browser silently. Choosing a source does not pause or start another player.
+
+Browser MPRIS may represent whichever media tab currently owns that browser's
+media session. An explicitly pinned browser is a browser-session control, and
+cannot guarantee the site if you later play something else in that same browser.
+Use a dedicated TIDAL PWA/browser process for automatic identification.
 
 ## Install the optional plugin
 
@@ -37,9 +56,12 @@ start another Quickshell process or replace your bar.
 
 - Left-click **TIDAL** for artwork, track/artist, actual playback quality,
   play/pause, next/previous, seeking, volume, a live 64-band spectrum and **Show/Hide player**.
-- Right-click the bar widget to show/hide the app directly.
+- Right-click to show/hide the native app, or focus the selected TIDAL web window.
 - Middle-click to play/pause the current track.
-- When the player is closed, **Open TIDAL Rust** starts it.
+- When the native player is closed, **Open TIDAL Rust** starts it.
+- Web controls provide metadata, play/pause, previous/next and seeking where
+  supported. Browser volume is adjusted in the web app, because Chromium
+  accepts MPRIS volume writes without applying them. The live FFT is native-only.
 - Escape or an outside click closes the panel.
 - The app's **Hide player** button or `Ctrl+H` hides its window; playback and
   its queue continue. Launching TIDAL Rust again restores the same instance.
@@ -52,17 +74,22 @@ sliders support the mouse and wheel.
 ## Permissions and dependencies
 
 Omarchy plugins run with your user permissions inside the shared shell. This
-plugin launches only `env <configured-executable> control <action> [number]`,
-using argument arrays rather than an interpolated shell command. By default
-that is `tidal-rs`. No elevated permissions, installation hooks, network requests, account tokens,
-passwords, stream URLs or mpv sockets are accessed by the plugin. It receives
-public playback metadata and cached artwork paths through the player's session
-D-Bus control interface. Status polls once per second while running, otherwise
-every five seconds. While the popup is open, one persistent `tidal-rs control spectrum`
-process subscribes to FFT frames over D-Bus. It stops when the popup closes.
-The spectrum reuses the app's audio capture and animates bars and peak markers
-at 60 fps; the plugin does not capture audio itself. No playback history is
-collected by the plugin.
+plugin discovers local MPRIS players directly through Quickshell and reads
+Hyprland window classes/PIDs to identify dedicated TIDAL PWAs. It focuses the
+specific TIDAL window with the installed Hyprland dispatcher when requested;
+it does not hide the whole browser or unrelated windows.
+
+Native commands use `env <configured-executable> control <action> [number]`
+with argument arrays. No elevated permissions, installation hooks, passwords,
+account tokens or stream URLs are accessed. Native status polls once per second;
+browser metadata uses MPRIS and a one-second position refresh. Artwork supplied
+by MPRIS may be a local file or a remote URL fetched for display. No listening
+history is collected by the plugin.
+
+Only the native source uses the app's persistent FFT subscription, and only
+while the popup is open. Switching to web or closing the popup stops it. The
+plugin does not capture browser or desktop audio and never shows the native
+spectrum under web playback.
 
 The **executable** setting chooses code to run under your account, so use only
 your installed player. The app's system dependencies (GTK4, mpv, libpulse and
@@ -85,6 +112,7 @@ keybindings or autostart files to clean up.
 ## Development and validation
 
 ```sh
+node tests/source-model.test.cjs
 python scripts/validate.py
 omarchy-shell shell summon gumuller.tidal '{}'
 omarchy-shell shell hide gumuller.tidal

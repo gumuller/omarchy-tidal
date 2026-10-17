@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "gumuller.tidal",
-  "name": "TIDAL Rust Controller",
-  "version": "1.1.0",
+  "name": "TIDAL Controller",
+  "version": "1.2.0",
   "author": "Gustavo Muller",
   "license": "MIT",
   "repository": "https://github.com/gumuller/omarchy-tidal",
-  "description": "Optional TIDAL Rust bar controller with a live 64-band spectrum, transport controls and hide/show. Requires tidal-rs 0.6.1+.",
+  "description": "Control TIDAL Rust or TIDAL web with conservative automatic selection, an explicit browser picker, transport controls and native FFT spectrum.",
   "kinds": [
     "bar-widget"
   ],
@@ -19,13 +19,19 @@
     "allowMultiple": false,
     "defaultSection": "right",
     "defaults": {
-      "executable": "tidal-rs"
+      "executable": "tidal-rs",
+      "playerSource": "auto"
     },
     "schema": [
       {
         "key": "executable",
         "type": "string",
         "label": "TIDAL Rust executable"
+      },
+      {
+        "key": "playerSource",
+        "type": "string",
+        "label": "Player source (auto, rust, or web session)"
       }
     ]
   }

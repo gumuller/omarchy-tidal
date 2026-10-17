@@ -21,10 +21,18 @@ Ui.BarWidget {
         panelLoader.item.player = player
     }
     onBarChanged: injectPanel()
+    function selectSource(value) {
+        let entry = Object.assign({}, root.settings, { id: root.moduleName, playerSource: value })
+        root.settings = entry
+        if (root.bar && root.bar.shell && typeof root.bar.shell.updateEntryInline === "function")
+            root.bar.shell.updateEntryInline(root.moduleName, entry)
+    }
 
     Controller {
         id: player
         executable: String(root.setting("executable", "tidal-rs"))
+        choice: String(root.setting("playerSource", "auto"))
+        onSelectionRequested: function(value) { root.selectSource(value) }
         spectrumActive: root.opened
     }
     Loader {
