@@ -38,3 +38,14 @@ Panel Escape dismissal, disable/re-enable and removal were also exercised in the
 live shell while muted audio advanced. Playback continued, and removing the
 plugin restored the exact original shell configuration. Tests restored the
 original player volume and left playback paused.
+
+## Spectrum update (v1.1.0)
+
+Transport controls now use equal 38-unit slots, with their glyphs centered on
+one horizontal line. The live popup was inspected with actual playback while
+the app was hidden. Its spectrum rendered real 64-band FFT data and peak caps.
+Exactly one persistent spectrum subscriber ran while open; it stopped on close
+and restarted on reopen without interrupting playback. The player's expanded
+29-check GUI suite passed, including live FFT subscription and clearing on
+pause; all 12 Rust tests also passed. Animation uses the Qt frame clock and is
+targeted at 60 fps independently of the lower-rate metadata poll.

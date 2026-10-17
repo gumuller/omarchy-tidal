@@ -6,7 +6,7 @@ on screen. Playback remains in the native Rust/GTK4 application.
 
 ## Install the player first
 
-Requires **TIDAL Rust 0.6.0 or newer**, a TIDAL account, and a subscription that
+Requires **TIDAL Rust 0.6.1 or newer**, a TIDAL account, and a subscription that
 permits playback. Install the Arch package or native binary bundle from the
 [player releases](https://github.com/gumuller/tidal-rs/releases/latest).
 The installed `tidal-rs` command must be in the Omarchy shell's PATH. If it is
@@ -36,7 +36,7 @@ start another Quickshell process or replace your bar.
 ## Use
 
 - Left-click **TIDAL** for artwork, track/artist, actual playback quality,
-  play/pause, next/previous, seeking, volume and **Show/Hide player**.
+  play/pause, next/previous, seeking, volume, a live 64-band spectrum and **Show/Hide player**.
 - Right-click the bar widget to show/hide the app directly.
 - Middle-click to play/pause the current track.
 - When the player is closed, **Open TIDAL Rust** starts it.
@@ -58,7 +58,11 @@ that is `tidal-rs`. No elevated permissions, installation hooks, network request
 passwords, stream URLs or mpv sockets are accessed by the plugin. It receives
 public playback metadata and cached artwork paths through the player's session
 D-Bus control interface. Status polls once per second while running, otherwise
-every five seconds. No playback history is collected by the plugin.
+every five seconds. While the popup is open, one persistent `tidal-rs control spectrum`
+process subscribes to FFT frames over D-Bus. It stops when the popup closes.
+The spectrum reuses the app's audio capture and animates bars and peak markers
+at 60 fps; the plugin does not capture audio itself. No playback history is
+collected by the plugin.
 
 The **executable** setting chooses code to run under your account, so use only
 your installed player. The app's system dependencies (GTK4, mpv, libpulse and

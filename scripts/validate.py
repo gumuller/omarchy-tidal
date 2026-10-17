@@ -14,5 +14,5 @@ with tempfile.TemporaryDirectory(prefix='tidal-qml-imports-') as imports:
     # Quickshell provides the qs prefix at runtime; qmllint needs it explicitly.
     Path(imports, 'qs').symlink_to(shell, target_is_directory=True)
     subprocess.run([linter, '-I', imports, *[str(root / name) for name in
-        ['BarWidget.qml', 'Controller.qml', 'PlayerPanel.qml']]], check=True)
+        ['BarWidget.qml', 'Controller.qml', 'PlayerPanel.qml', 'Spectrum.qml']]], check=True)
 print('Manifest and QML validation passed (dynamic shell facade warnings may remain).')

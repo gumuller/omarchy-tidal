@@ -25,6 +25,7 @@ Ui.BarWidget {
     Controller {
         id: player
         executable: String(root.setting("executable", "tidal-rs"))
+        spectrumActive: root.opened
     }
     Loader {
         id: panelLoader

@@ -2,19 +2,31 @@
   "schemaVersion": 1,
   "id": "gumuller.tidal",
   "name": "TIDAL Rust Controller",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Gustavo Muller",
   "license": "MIT",
   "repository": "https://github.com/gumuller/omarchy-tidal",
-  "description": "Optional bar controller for TIDAL Rust: artwork, transport, seeking, volume and hide/show without interrupting playback. Requires tidal-rs 0.6.0+.",
-  "kinds": ["bar-widget"],
-  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "description": "Optional TIDAL Rust bar controller with a live 64-band spectrum, transport controls and hide/show. Requires tidal-rs 0.6.1+.",
+  "kinds": [
+    "bar-widget"
+  ],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
   "barWidget": {
     "displayName": "TIDAL",
     "category": "Media",
     "allowMultiple": false,
     "defaultSection": "right",
-    "defaults": { "executable": "tidal-rs" },
-    "schema": [ { "key": "executable", "type": "string", "label": "TIDAL Rust executable" } ]
+    "defaults": {
+      "executable": "tidal-rs"
+    },
+    "schema": [
+      {
+        "key": "executable",
+        "type": "string",
+        "label": "TIDAL Rust executable"
+      }
+    ]
   }
 }

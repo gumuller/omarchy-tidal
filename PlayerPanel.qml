@@ -115,6 +115,7 @@ Ui.Panel {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: Style.space(18)
                 Ui.PanelActionButton {
+                    size: Style.space(38)
                     iconText: "󰒮"
                     tooltipText: "Previous track"
                     focusable: true
@@ -132,6 +133,7 @@ Ui.Panel {
                     onClicked: root.player.control("toggle-playback")
                 }
                 Ui.PanelActionButton {
+                    size: Style.space(38)
                     iconText: "󰒭"
                     tooltipText: "Next track"
                     focusable: true
@@ -139,6 +141,13 @@ Ui.Panel {
                     foreground: root.barForeground
                     onClicked: root.player.control("next")
                 }
+            }
+            Spectrum {
+                width: parent.width
+                height: Style.space(76)
+                active: root.opened
+                bins: root.player ? root.player.frequencies : []
+                live: root.player ? root.player.spectrumLive : false
             }
             Row {
                 width: parent.width
