@@ -54,7 +54,7 @@ sliders support the mouse and wheel.
 Omarchy plugins run with your user permissions inside the shared shell. This
 plugin launches only `env <configured-executable> control <action> [number]`,
 using argument arrays rather than an interpolated shell command. By default
-that is `tidal-rs`. No sudo, installation hooks, network requests, account tokens,
+that is `tidal-rs`. No elevated permissions, installation hooks, network requests, account tokens,
 passwords, stream URLs or mpv sockets are accessed by the plugin. It receives
 public playback metadata and cached artwork paths through the player's session
 D-Bus control interface. Status polls once per second while running, otherwise
