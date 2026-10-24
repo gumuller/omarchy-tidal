@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "id": "gumuller.tidal",
   "name": "TIDAL Controller",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Gustavo Muller",
   "license": "MIT",
   "repository": "https://github.com/gumuller/omarchy-tidal",
-  "description": "Control TIDAL Rust or TIDAL web with conservative automatic selection, an explicit browser picker, transport controls and native FFT spectrum.",
+  "description": "Control TIDAL without leaving your workspace. A compact Omarchy bar player for TIDAL web and TIDAL Rust, with album art, play/pause, track skipping, seeking and quick window access. Follows your desktop theme and adds a live 64-band spectrum and volume controls for the Rust player.",
   "kinds": [
     "bar-widget"
   ],
@@ -33,6 +33,7 @@
         "type": "string",
         "label": "Player source (auto, rust, or web session)"
       }
-    ]
+    ],
+    "description": "TIDAL web and native playback controls, album artwork, source selection and a live native spectrum."
   }
 }

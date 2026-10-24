@@ -1,7 +1,35 @@
 # TIDAL Controller for Omarchy
 
-An optional Quattro bar widget for TIDAL Rust and TIDAL web, with a compact
-themed popup and conservative automatic source selection.
+Control your music without leaving your workspace. TIDAL Controller puts
+TIDAL web and [TIDAL Rust](https://github.com/gumuller/tidal-rs) in a compact
+popup on your Omarchy bar, with artwork, playback controls and quick access to
+the player. It follows your current desktop theme automatically.
+
+![TIDAL Controller: native playback with a live spectrum and the web source picker](preview.png)
+
+## What you get
+
+- **Music at a glance:** album artwork, track and artist, playback progress,
+  and delivered quality when using the native player.
+- **Controls within reach:** play/pause, previous/next, seeking, and a shortcut
+  to bring the player back to your workspace.
+- **Web or native:** use your browser's TIDAL session, the Rust app, or switch
+  between them. Web controls work without installing the native app.
+- **A real spectrum:** 64 frequency bands with smooth bars and peak markers
+  when using TIDAL Rust, plus native volume and hide/show controls.
+- **Predictable source selection:** Auto follows an identified playing TIDAL
+  source; a picker lets you explicitly pin ambiguous browser sessions.
+
+## Screenshots
+
+| Native playback and live spectrum | TIDAL web and source selection |
+| --- | --- |
+| <img src="docs/screenshots/native-spectrum.png" alt="TIDAL Rust popup with album art, transport controls, a real 64-band spectrum and volume" width="360"> | <img src="docs/screenshots/source-picker.png" alt="TIDAL web popup with the source picker open, browser playback controls and a show-window button" width="360"> |
+
+These are real plugin captures using Omarchy's Ethereal theme. The native
+spectrum uses the player's audio frequencies; the plugin does not capture
+browser or desktop audio. Spectrum and volume controls are native-only.
+Browser volume stays in TIDAL web.
 
 ## Players and automatic selection
 
